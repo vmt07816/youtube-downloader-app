@@ -13,15 +13,18 @@
 
             <div class="col-6">
                 <h4 class="h5 mb-4 font-weight-bold">Download Links <small>(multiple sizes and formats)</small></h4>
-                <ul class="list-group">
-                    {{#each meta.formats}}
-                    <li class="list-group-item">
-                        <a style="font-size: 12px">{{format_note}}
-                            <div class="small">Ext: {{ext}} | Size: {{filesize}}<button class="download-button" value="{{format_id}}">Download</button></div>
-                        </a>
-                    </li>
-                    {{/each}}
-                </ul>
+				<table style="width:100%" border="1">
+				 <tr> <th>Resolution</th> <th>FileSize</th> <th>Download</th> </tr> 
+				 
+				 {{#each meta.formats}}
+					<tr> 
+						<td> <a href="#" rel="nofollow">{{format_note}} - Ext: {{ext}}</td> 
+						<td>{{filesize}} <span class="label label-primary"></a> </td> 
+						<td> <button class="download-button" value="{{format_id}}">Download</button>
+						</td> 
+					</tr>
+				 {{/each}}
+				 </table>
             </div>
         {{/if}}
 </div>
