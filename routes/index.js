@@ -27,7 +27,7 @@ router.post('/video', function(req, res, next) {
         if(pattern.test(resp.request.uri.href)) {
             ytdl.getInfo(url, ['--youtube-skip-dash-manifest'], function(err, info) {
                 if(err) return res.render('listvideo', {error: 'The link you provided either not a valid url or it is not acceptable'});
-
+                console.logs(info);
                 // push all video formats for download (skipping audio)
                 info.formats.forEach(function(item) {
                     if(item.format_note !== 'DASH audio' && item.filesize) {
