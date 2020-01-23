@@ -27,7 +27,7 @@ router.post('/video', function(req, res, next) {
         if(pattern.test(resp.request.uri.href)) {
             ytdl.getInfo(url, ['--youtube-skip-dash-manifest'], function(err, info) {
                 if(err) return res.render('listvideo', {error: 'The link you provided either not a valid url or it is not acceptable'});
-                console.log(info);
+				//console.log(info);
                 // push all video formats for download (skipping audio)
                 info.formats.forEach(function(item) {
                     if(item.format_note !== 'DASH audio' && item.filesize) {
@@ -42,10 +42,29 @@ router.post('/video', function(req, res, next) {
             res.render('listvideo', {error: 'The link you provided either not a valid url or it is not acceptable'});
         }
     });
-
-
-
 })
 
+router.get('/downloadvideo', (req,res) => {
+	var format_id = req.query.format_id;
+	var url = "https://www.youtube.com/watch?v="+req.query.video_id;
+	const video = ytdl(url,
+	  // Optional arguments passed to youtube-dl.
+	  [`--format=${format_id}`],
+	  // Additional options can be given for calling `child_process.execFile()`.
+	  { cwd: __dirname })
+	 
+	// Will be called when the download starts.
+	video.on('info', function(info) {
+	  console.log('Download started')
+	  console.log('filename: ' + info._filename)
+	  console.log('size: ' + info.size)
+	  res.set({
+        'Content-Length':  info.size,
+        'Content-Disposition': 'attachment; filename=' + `"video.mp4"`
+      });
+	})
+	
+	video.pipe(res);
+});
 
 module.exports = router;

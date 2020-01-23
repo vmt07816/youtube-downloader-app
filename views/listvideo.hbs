@@ -16,8 +16,8 @@
                 <ul class="list-group">
                     {{#each meta.formats}}
                     <li class="list-group-item">
-                        <a href="{{url}}" style="font-size: 12px">{{format_note}}
-                            <div class="small">Ext: {{ext}} | Size: {{filesize}}</div>
+                        <a style="font-size: 12px">{{format_note}}
+                            <div class="small">Ext: {{ext}} | Size: {{filesize}}<button class="download-button" value="{{format_id}}">Download</button></div>
                         </a>
                     </li>
                     {{/each}}
@@ -25,3 +25,15 @@
             </div>
         {{/if}}
 </div>
+<script>
+var elems = document.getElementsByClassName('download-button');
+for (var i = 0; i < elems.length; i++) {
+  elems[i].addEventListener('click', function() {
+    redirectVideo(this.value);
+  });
+};
+
+function redirectVideo(format_id) {
+  window.location.href = `downloadvideo?format_id=${format_id}&video_id={{meta.id}}`;
+}
+</script>
